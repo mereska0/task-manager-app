@@ -1,4 +1,5 @@
 # Task Manager App
+**THIS PROJECT WAS BUILT FOR EDUCATIONAL PURPOSES**
 
 A simple web-based task manager built with Go, PostgreSQL, and a vanilla JavaScript frontend.
 
