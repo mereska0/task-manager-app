@@ -144,6 +144,23 @@ func (h *TaskHandler) DeleteTask(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func (h *TaskHandler) ClearTasks(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		ErrorWrite(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
+	err := h.service.ClearTasks(r.Context())
+	if err != nil {
+		if errors.Is(err, context.DeadlineExceeded) {
+			ErrorWrite(w, "timeout", http.StatusBadGateway)
+			return
+		}
+		ErrorWrite(w, "db error", 500)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func ErrorWrite(w http.ResponseWriter, text string, status int) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(status)

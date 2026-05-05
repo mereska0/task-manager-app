@@ -44,7 +44,7 @@ func (s *TaskService) GetTasks(ctx context.Context) ([]model.Task, error) {
 }
 
 func (s *TaskService) UpdateTaskText(ctx context.Context, text string, id int) error {
-	res, err := s.db.Exec("UPDATE tasks SET text=$1 WHERE id=$2", text, id)
+	res, err := s.db.ExecContext(ctx, "UPDATE tasks SET text=$1 WHERE id=$2", text, id)
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func (s *TaskService) UpdateTaskText(ctx context.Context, text string, id int) e
 	return nil
 }
 func (s *TaskService) UpdateTaskStatus(ctx context.Context, isDone bool, id int) error {
-	res, err := s.db.Exec("UPDATE tasks SET isdone=$1 WHERE id=$2", isDone, id)
+	res, err := s.db.ExecContext(ctx, "UPDATE tasks SET isdone=$1 WHERE id=$2", isDone, id)
 	if err != nil {
 		return err
 	}
@@ -73,13 +73,21 @@ func (s *TaskService) UpdateTaskStatus(ctx context.Context, isDone bool, id int)
 }
 
 func (s *TaskService) DeleteTask(ctx context.Context, id int) error {
-	res, err := s.db.Exec("DELETE FROM tasks WHERE id=$1", id)
-	rows, err := res.RowsAffected()
+	res, err := s.db.ExecContext(ctx, "DELETE FROM tasks WHERE id=$1", id)
 	if err != nil {
 		return err
 	}
+	rows, err := res.RowsAffected()
 	if rows == 0 {
 		return ErrNotFound
+	}
+	return nil
+}
+
+func (s *TaskService) ClearTasks(ctx context.Context) error {
+	_, err := s.db.ExecContext(ctx, "DELETE FROM TASKS")
+	if err != nil {
+		return err
 	}
 	return nil
 }

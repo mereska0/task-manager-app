@@ -79,6 +79,25 @@ button[type="submit"]:hover {
     box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
 }
 
+#clear-all {
+    padding: 0.875rem 1.5rem;
+    background: #d03640;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(208, 54, 64, 0.3);
+}
+#clear-all:hover {
+    background: #9d0e37;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(157, 14, 55, 0.4);
+}
+
+
 #task-list {
     list-style: none;
     padding: 0;

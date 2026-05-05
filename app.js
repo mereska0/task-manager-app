@@ -3,6 +3,7 @@ const API_BASE = 'http://localhost:8080/tasks';
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
     document.getElementById('task-form').addEventListener('submit', addTask);
+    document.getElementById('clear-all').addEventListener('click', clearTasks);
 });
 
 async function loadTasks() {
@@ -107,5 +108,20 @@ async function deleteTask(id) {
     } catch (error) {
         console.error('Error deleting task:', error);
         alert('Failed to delete task');
+    }
+}
+
+async function clearTasks() {
+    if (!confirm('Are you sure you want to clear all tasks?')) return;
+
+    try {
+        const response = await fetch(API_BASE, {
+            method: 'DELETE'
+        });
+        if (!response.ok) throw new Error('Failed to clear tasks');
+        loadTasks();
+    } catch (error) {
+        console.error('Error clearing tasks:', error);
+        alert('Failed to clear tasks');
     }
 }

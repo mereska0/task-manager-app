@@ -25,6 +25,7 @@ func main() {
 		r.Get("/", handler.GetTasks)
 		r.Post("/", handler.AddTask)
 		r.Delete("/{id}", handler.DeleteTask)
+		r.Delete("/", handler.ClearTasks)
 		r.Put("/{id}", handler.UpdateTask)
 	})
 
