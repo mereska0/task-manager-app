@@ -90,3 +90,24 @@ func TestDelete(t *testing.T) {
 		t.Errorf("no tasks expected, got %s", tasks[0].Text)
 	}
 }
+
+func TestClear(t *testing.T) {
+	db := setupTestDB(t)
+	service := NewTaskService(db)
+	_, err := service.AddTask(context.Background(), "chocolate")
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = service.ClearTasks(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	tasks, err := service.GetTasks(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(tasks) != 0 {
+		t.Errorf("no tasks expected, got %s", tasks[0].Text)
+	}
+
+}
